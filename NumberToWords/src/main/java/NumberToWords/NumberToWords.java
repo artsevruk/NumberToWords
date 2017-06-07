@@ -42,12 +42,13 @@ public class NumberToWords extends Number {
 
     //Метод добавляет в numberToSb отрицательное число или положительоне
     public void addFront(String srtNumber) {
+        String minus = " минус ";
         if (!front(intNumber(srtNumber))) {
-            numberToSb.append(" минус ");
+            numberToSb.append(minus);
         }
     }
 
-    //Метод добавляет в StringBuilder numberToSb слова соответствующие переданному числу
+    //Метод добавляет в StringBuilder numberToSb слова соответствующие переданному числу strNumber
     public void addDigit(String strNumber) {
         if (strNumber.length() == 1) {
             numberToSb.append(digit(strNumber.substring(0, 1), DIGIT1)).append(" ");
@@ -66,6 +67,8 @@ public class NumberToWords extends Number {
 
     //Метод добавляет в StringBuilder numberToSb степени и склонения
     public void addFormatNumber(String strNumber) throws IndexOutOfBoundsException {
+        String odna = " одна ";
+        String dve = " две ";
         ArrayList<String> segments = SplitNumberToSegments(strNumber);
         for (int i = 0; i < segments.size(); i++) {
             String strSegment = segments.get(i);
@@ -78,14 +81,14 @@ public class NumberToWords extends Number {
             if (segments.size() >= 1 && intStr > 0) {
                 if (11 != intStr11 && (strSegment.substring(strSegment.length() - 1).equals("1"))) {
                     if (i >= segments.size() - 2) {
-                        numberToSb.replace(numberToSb.length() - 5, numberToSb.length(), " одна ");
+                        numberToSb.replace(numberToSb.length() - 5, numberToSb.length(), odna);
                     }
                     numberToSb.append(formOne.get(segments.size() - 1 - i)).append(" ");
                 } else if (12 != intStr11 && (strSegment.substring(strSegment.length() - 1).equals("2")) ||
                         13 != intStr11 && strSegment.substring(strSegment.length() - 1).equals("3") ||
                         14 != intStr11 && strSegment.substring(strSegment.length() - 1).equals("4")) {
                     if ((i >= segments.size() - 2) && (strSegment.substring(strSegment.length() - 1).equals("2"))) {
-                        numberToSb.replace(numberToSb.length() - 4, numberToSb.length(), " две ");
+                        numberToSb.replace(numberToSb.length() - 4, numberToSb.length(), dve);
                     }
                     numberToSb.append(formTwo.get(segments.size() - 1 - i)).append(" ");
                 } else {
@@ -97,6 +100,9 @@ public class NumberToWords extends Number {
     //Метод добавляет в StringBuilder numberToSb постфикс для целой части числа
     public void addFormatForInteger(String strIntegerNumber) throws IndexOutOfBoundsException {
         int intStr11 = 1;
+        String nol = "ноль ";
+        String celaya = "целая ";
+        String celih = "целых ";
         if (numberIsZero(strIntegerNumber)) {
 
             if (strIntegerNumber.length() > 1)
@@ -104,11 +110,11 @@ public class NumberToWords extends Number {
 
             addFormatNumber(strIntegerNumber);
         } else {
-            numberToSb.append("ноль ");
+            numberToSb.append(nol);
         }
         if (strIntegerNumber.substring(strIntegerNumber.length() - 1).equals("1") && 11 != intStr11) {
-            numberToSb.append("целая ");
-        } else numberToSb.append("целых ");
+            numberToSb.append(celaya);
+        } else numberToSb.append(celih);
 
     }
 
@@ -161,8 +167,11 @@ public class NumberToWords extends Number {
         return convertNumberToWords();
     }
 
+
     //Метод расширяет справочник чисел прописью с помощью Excel каталога
+    /*
     public void setFormsOfCatalog(String pathFile) {
+
         Catalog catalog = new Catalog();
         try {
             formOne = catalog.readOfCatlog(pathFile, 1, 0);
@@ -178,26 +187,12 @@ public class NumberToWords extends Number {
             e.printStackTrace();
         }
     }
+    */
+
 
     //Метод очищает StringBuilder numberToSb
     public void clear() {
         numberToSb.delete(0, numberToSb.length());
-    }
-
-
-    public static void main(String[] args) throws IOException {
-        NumberToWords numberToWords = new NumberToWords();
-        System.out.println(numberToWords.convertNumberToWords("1424"));
-        System.out.println(numberToWords.convertNumberToWords("-14246786578465782636.1723276314"));
-        System.out.println(numberToWords.convertNumberToWords("0.1"));
-        System.out.println(numberToWords.convertNumberToWords("1.0"));
-        System.out.println(numberToWords.convertNumberToWords("111001.0"));
-        System.out.println(numberToWords.convertNumberToWords("-21312435"));
-        System.out.println(numberToWords.convertNumberToWords("21435.213"));
-
-        NumberToWords numberToWords1 = new NumberToWords("-98657633424.0001");
-        System.out.println(numberToWords1.convertNumberToWords());
-
     }
 
 }

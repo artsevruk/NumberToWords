@@ -25,10 +25,6 @@ import java.util.Collections;
  */
 
 public abstract class Number {
-    //0. исправить варнинги Warning
-    // + 1. ПРОДУМАТЬ СИГНАТУРЫ МЕТОДОВ (НАЗВАНИЯ ПЕРЕДАВАЕМВЫХ ПЕРЕМЕННЫХ
-    //2. ДОБАВИТЬ Exceptions
-    //3. ТЕСТЫ
 
     //Абстрактный метод. Получение целой части числа
     public abstract String getIntNumber();
@@ -123,6 +119,5 @@ public abstract class Number {
         }
         return correct;
     }
-
 
 }
