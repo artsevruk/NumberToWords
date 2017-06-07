@@ -15,7 +15,7 @@
 # IDea files
 .idea
 *.idea
-NotationTask/target*
+NumberToWords/target*
 
 #Other
 *.dia

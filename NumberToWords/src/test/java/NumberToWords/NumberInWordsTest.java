@@ -29,12 +29,11 @@ public class NumberInWordsTest {
             logger.error("! logger error !" + e.getMessage());
             logger.info("! logger info !" + e.getStackTrace());
         }
-        //logger.info("! logger RUN!");
+        logger.info("! logger RUN!");
         for (int i = 0; i < strExpected.size(); i++) {
             assertEquals(numberToWords.convertNumberToWords(strExpected.get(i)), strActual.get(i));
-            //logger.debug("! logger in for !");
         }
-        //logger.debug("! logger END !");
+        logger.info("! logger END !");
     }
 
 }
