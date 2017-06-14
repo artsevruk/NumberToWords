@@ -1,13 +1,13 @@
 package NumberToWords;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import org.apache.log4j.Logger;
 import java.lang.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 
 public class NumberToWords extends Number {
+    private static final Logger logger = Logger.getLogger(NumberToWords.class);
 
     //Справочник для чисел прописью
     private static final String DIGIT1[] = {"", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"};
@@ -24,10 +24,6 @@ public class NumberToWords extends Number {
 
     public NumberToWords() {
 
-    }
-
-    public NumberToWords(String number) {
-        this.number = number;
     }
 
     //Метод получение целой части числа
@@ -67,8 +63,8 @@ public class NumberToWords extends Number {
 
     //Метод добавляет в StringBuilder numberToSb степени и склонения
     public void addFormatNumber(String strNumber) throws IndexOutOfBoundsException {
-        String odna = " одна ";
-        String dve = " две ";
+        String one = " одна ";
+        String two = " две ";
         ArrayList<String> segments = SplitNumberToSegments(strNumber);
         for (int i = 0; i < segments.size(); i++) {
             String strSegment = segments.get(i);
@@ -81,14 +77,14 @@ public class NumberToWords extends Number {
             if (segments.size() >= 1 && intStr > 0) {
                 if (11 != intStr11 && (strSegment.substring(strSegment.length() - 1).equals("1"))) {
                     if (i >= segments.size() - 2) {
-                        numberToSb.replace(numberToSb.length() - 5, numberToSb.length(), odna);
+                        numberToSb.replace(numberToSb.length() - 5, numberToSb.length(), one);
                     }
                     numberToSb.append(formOne.get(segments.size() - 1 - i)).append(" ");
                 } else if (12 != intStr11 && (strSegment.substring(strSegment.length() - 1).equals("2")) ||
                         13 != intStr11 && strSegment.substring(strSegment.length() - 1).equals("3") ||
                         14 != intStr11 && strSegment.substring(strSegment.length() - 1).equals("4")) {
                     if ((i >= segments.size() - 2) && (strSegment.substring(strSegment.length() - 1).equals("2"))) {
-                        numberToSb.replace(numberToSb.length() - 4, numberToSb.length(), dve);
+                        numberToSb.replace(numberToSb.length() - 4, numberToSb.length(), two);
                     }
                     numberToSb.append(formTwo.get(segments.size() - 1 - i)).append(" ");
                 } else {
@@ -100,52 +96,52 @@ public class NumberToWords extends Number {
     //Метод добавляет в StringBuilder numberToSb постфикс для целой части числа
     public void addFormatForInteger(String strIntegerNumber) throws IndexOutOfBoundsException {
         int intStr11 = 1;
-        String nol = "ноль ";
-        String celaya = "целая ";
-        String celih = "целых ";
+        String zero = "ноль ";
+        String wholeForOne = "целая ";
+        String wholeForFive = "целых ";
         if (numberIsZero(strIntegerNumber)) {
-
             if (strIntegerNumber.length() > 1)
+            {
                 intStr11 = Integer.parseInt(strIntegerNumber.substring(strIntegerNumber.length() - 2));
-
-            addFormatNumber(strIntegerNumber);
+                addFormatNumber(strIntegerNumber);
+            }
         } else {
-            numberToSb.append(nol);
+            numberToSb.append(zero);
         }
         if (strIntegerNumber.substring(strIntegerNumber.length() - 1).equals("1") && 11 != intStr11) {
-            numberToSb.append(celaya);
-        } else numberToSb.append(celih);
+            numberToSb.append(wholeForOne);
+        } else numberToSb.append(wholeForFive);
 
     }
 
     //Метод добавляет в StringBuilder numberToSb постфикс для дробной части числа
     public void addFormatForDouble(String strDoubleNumber) throws IndexOutOfBoundsException {
+        String strForDoubleOne = "ая ";
         if (numberIsZero(strDoubleNumber)) {
             int intStr11 = 1;
             if (strDoubleNumber.length() > 1)
+            {
                 intStr11 = Integer.parseInt(strDoubleNumber.substring(strDoubleNumber.length() - 2));
-
-            addFormatNumber(strDoubleNumber);
-
+                addFormatNumber(strDoubleNumber);
+            }
             numberToSb.append(formDouble.get(strDoubleNumber.length()));
             if (strDoubleNumber.substring(strDoubleNumber.length() - 1).equals("1") && 11 != intStr11) {
-                numberToSb.replace(numberToSb.length() - 2, numberToSb.length(), "ая ");
+                numberToSb.replace(numberToSb.length() - 2, numberToSb.length(), strForDoubleOne);
             }
         }
     }
 
     //Метод печатает число прописью
     public String convertNumberToWords() {
-
         addFront(number);
         try {
             addFormatForInteger(getIntNumber());
             addFormatForDouble(getDoubleNumber());
         } catch (NumberFormatException e) {
-            System.out.println("Неверный формат числа: " + e);
+            logger.error("Invalid number format. " + e);
             e.printStackTrace();
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Недостаточно данных для столь большого числа " + e);
+            logger.error("Big number. It is necessary to expand the catalog. " + e);
             e.printStackTrace();
         }
 
@@ -168,26 +164,7 @@ public class NumberToWords extends Number {
     }
 
 
-    //Метод расширяет справочник чисел прописью с помощью Excel каталога
-    /*
-    public void setFormsOfCatalog(String pathFile) {
 
-        Catalog catalog = new Catalog();
-        try {
-            formOne = catalog.readOfCatlog(pathFile, 1, 0);
-            formTwo = catalog.readOfCatlog(pathFile, 1, 1);
-            formFive = catalog.readOfCatlog(pathFile, 1, 2);
-            formDouble = catalog.readOfCatlog(pathFile, 1, 3);
-
-        } catch (FileNotFoundException e) {
-            System.out.println("Файл каталога не найден: " + e);
-            e.printStackTrace();
-        } catch (IOException e) {
-            System.out.println("Файл не может быть создан: " + e);
-            e.printStackTrace();
-        }
-    }
-    */
 
 
     //Метод очищает StringBuilder numberToSb

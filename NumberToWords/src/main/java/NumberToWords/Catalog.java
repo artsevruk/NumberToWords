@@ -1,5 +1,6 @@
 package NumberToWords;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
  */
 public class Catalog {
 
+    private static final Logger logger = Logger.getLogger(Catalog.class);
 
     //Метод определяет тип Excel ячейки и преобразует ее данные в String
     public static String readTextOfCell(Cell cell) {
@@ -34,7 +36,7 @@ public class Catalog {
                     System.out.println();
             }
         } catch (NullPointerException e) {
-            System.out.println("Каталог не содержит данных: " + e);
+            logger.error("Catalog does not contain data. " + e);
         }
         return result;
     }
@@ -52,5 +54,6 @@ public class Catalog {
         fileInputStream.close();
         return digit;
     }
+
 
 }
