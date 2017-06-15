@@ -42,18 +42,44 @@ public class Catalog {
     }
 
     //Метод записавает из столбца данные в ArrayList<String>
-    public ArrayList<String> readOfCatlog(String pathFile, int sheet, int cell) throws IOException {
+    public ArrayList<String> readOfCatlogInList(String pathFile, int sheet, int cell) throws IOException {
+
         ArrayList<String> digit = new ArrayList();
+
+
+
         FileInputStream fileInputStream = new FileInputStream(pathFile);
         HSSFWorkbook wb = new HSSFWorkbook(fileInputStream);
 
         for (Row row : wb.getSheetAt(sheet)) {
-
             digit.add(readTextOfCell(row.getCell(cell)));
         }
         fileInputStream.close();
         return digit;
     }
 
+
+
+    //Метод записавает из столбца данные в ArrayList<String>
+    public Object[][] readOfCatlogInArray(int line, int column){
+
+
+        Object[][] arrObj0 = new Object[line][column];
+
+        // цикл по первой размерности
+        for (int i = 0; i < line; i++) {
+            // цикл по второй размерности
+            for (int j = 0; j < column; j++) {
+                //инициализация элементов массива
+                arrObj0[i][j] = i+1;
+
+                //вывод элементов массива
+                System.out.print(arrObj0[i][j] + "\t");
+            }
+            System.out.println();
+        }
+        return arrObj0;
+
+    }
 
 }
