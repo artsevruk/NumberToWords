@@ -29,7 +29,6 @@ public class GlobalDataProvider {
         map.put("shouldBeNotConformityBetweenNumberIsZero","src/test/resources/DataTest/shouldBeNotConformityBetweenNumberIsZero.xls");
         map.put("shouldBeConformityBetweenReadOfCatlogInList","src/test/resources/DataTest/shouldBeConformityBetweenReadOfCatlogInList.xls");
         map.put("shouldBeNotConformityBetweenReadOfCatlogInList","src/test/resources/DataTest/shouldBeNotConformityBetweenReadOfCatlogInList.xls");
-
     }
 
     @DataProvider(name = "Provider")
