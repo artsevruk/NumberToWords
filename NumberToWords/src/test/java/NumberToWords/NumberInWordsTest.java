@@ -1,46 +1,85 @@
 package NumberToWords;
 
-import org.apache.log4j.Logger;
-import org.junit.Test;
+
+import NumberToWords.util.GlobalDataProvider;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
 
 public class NumberInWordsTest {
-    private static final Logger logger = Logger.getLogger(NumberInWordsTest.class);
-
-    String patExeleTestFileDirectory = "src/test/resources/DataTest/numberInWords.xls";
-    NumberToWords numberToWords = new NumberToWords();
-    Catalog catalog = new Catalog();
+    private NumberToWords numberToWords = new NumberToWords();
+    private String digit1[] = {"", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"};
 
 
-    @Test
-    public void testPrintNumberToWords() throws Exception {
-        ArrayList<String> strExpected = null;
-        ArrayList<String> strActual = null;
-        try {
-            strExpected = catalog.readOfCatlogInList(patExeleTestFileDirectory, 0, 0);
-            strActual = catalog.readOfCatlogInList(patExeleTestFileDirectory, 0, 1);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
-        for (int i = 0; i < strExpected.size(); i++) {
-            assertEquals(numberToWords.convertNumberToWords(strExpected.get(i)), strActual.get(i));
-        }
-
+    @Test(dataProvider = "Provider", dataProviderClass = GlobalDataProvider.class)
+    public void shouldBeConformityBetweenIntNumber(String a, String b){
+        Assert.assertEquals(numberToWords.intNumber(a),b);
     }
 
-    @Test
-    public void testreadOfCatlogInArray() throws Exception {
-
-        catalog.readOfCatlogInArray(3,2);
-
-
+    @Test(dataProvider = "Provider", dataProviderClass = GlobalDataProvider.class)
+    public void shouldBeNotConformityBetweenIntNumber(String a, String b){
+        Assert.assertNotEquals(numberToWords.intNumber(a),b);
     }
+
+    @Test(dataProvider = "Provider", dataProviderClass = GlobalDataProvider.class)
+    public void shouldBeConformityBetweenNumberAbs(String a, String b){
+        Assert.assertEquals(numberToWords.numberAbs(a),b);
+    }
+
+    @Test(dataProvider = "Provider", dataProviderClass = GlobalDataProvider.class)
+    public void shouldBeNotConformityBetweenNumberAbs(String a, String b){
+        Assert.assertNotEquals(numberToWords.numberAbs(a),b);
+    }
+
+    @Test(dataProvider = "Provider", dataProviderClass = GlobalDataProvider.class)
+    public void shouldBeConformityBetweenDoubleNumber(String a, String b){
+        Assert.assertEquals(numberToWords.doubleNumber(a),b);
+    }
+
+    @Test(dataProvider = "Provider", dataProviderClass = GlobalDataProvider.class)
+    public void shouldBeNotConformityBetweenDoubleNumber(String a, String b){
+        Assert.assertNotEquals(numberToWords.doubleNumber(a),b);
+    }
+
+    @Test(dataProvider = "Provider", dataProviderClass = GlobalDataProvider.class)
+    public void shouldBeConformityBetweenDigit(String a, String b){
+        Assert.assertEquals(numberToWords.digit(a,digit1),b);
+    }
+    @Test(dataProvider = "Provider", dataProviderClass = GlobalDataProvider.class)
+    public void shouldBeNotConformityBetweenDigit(String a, String b){
+        Assert.assertNotEquals(numberToWords.digit(a,digit1),b);
+    }
+
+    @Test(dataProvider = "Provider", dataProviderClass = GlobalDataProvider.class)
+    public void shouldBeConformityBetweenSplitNumberToSegments(String a, String b){
+        Assert.assertEquals(numberToWords.splitNumberToSegments(a).size(),Integer.parseInt(b));
+    }
+
+    @Test(dataProvider = "Provider", dataProviderClass = GlobalDataProvider.class)
+    public void shouldBeNotConformityBetweenSplitNumberToSegments(String a, String b){
+        Assert.assertNotEquals(numberToWords.splitNumberToSegments(a).size(),Integer.parseInt(b));
+    }
+
+    @Test(dataProvider = "Provider", dataProviderClass = GlobalDataProvider.class)
+    public void shouldBeConformityBetweenNumberIsZero(String a, String b){
+        Assert.assertEquals(String.valueOf(numberToWords.numberIsZero(a)),b);
+    }
+
+    @Test(dataProvider = "Provider", dataProviderClass = GlobalDataProvider.class)
+    public void shouldBeNotConformityBetweenNumberIsZero(String a, String b){
+        Assert.assertNotEquals(numberToWords.numberIsZero(a),b);
+    }
+
+    @Test(dataProvider = "Provider", dataProviderClass = GlobalDataProvider.class)
+    public void shouldBeConformityBetweenNumberInWords(String a, String b)
+    {
+        Assert.assertEquals(numberToWords.convertNumberToWords(a),b);
+    }
+    @Test(dataProvider = "Provider", dataProviderClass = GlobalDataProvider.class)
+    public void shouldBeNotConformityBetweenNumberInWords(String a, String b)
+    {
+        Assert.assertNotEquals(numberToWords.convertNumberToWords(a),b);
+    }
+
 }

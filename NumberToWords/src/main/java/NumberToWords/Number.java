@@ -1,6 +1,5 @@
 package NumberToWords;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -35,11 +34,15 @@ public abstract class Number {
     //Абстрактный метод. Печать числа прописью
     public abstract String convertNumberToWords(String strNumber);
 
+    /*
+    public abstract void addDigit(String strNumber);
+
     //Абстрактный метод. Добавление степеней и склонений для целой части
     public abstract void addFormatForInteger(String strIntegerNumber);
 
     //Абстрактный метод. Добавление степеней и склонений для целой части
     public abstract void addFormatForDouble(String strDoubleNumber);
+     */
 
     //Метод разбивает число на целую и дробную части
     private String[] SplitNumberToIntAndDouble(String strNumber) {
@@ -69,7 +72,7 @@ public abstract class Number {
     }
 
     //Метод получение целой части числа по модулю
-    public String intNumberAbs(String strNumber) {
+    public String numberAbs(String strNumber) {
         if (!front(strNumber)) {
             return strNumber.substring(1, strNumber.length());
         } else {
@@ -83,7 +86,7 @@ public abstract class Number {
     }
 
     //Метод возвращает строку из массива соответствующую переданному числу
-    public static String digit(String strNumber, String[] dig) {
+    public String digit(String strNumber, String[] dig) {
         int number = Integer.parseInt(strNumber);
         for (int i = 0; i <= number; i++) {
             if (number == i) {
@@ -94,7 +97,7 @@ public abstract class Number {
     }
 
     //Метод разбивает число на сегменты по три знака, записывает их в ArrayList<String>
-    public ArrayList<String> SplitNumberToSegments(String strNumber) {
+    public ArrayList<String> splitNumberToSegments(String strNumber) {
         ArrayList<String> segments = new ArrayList<String>();
         while (strNumber.length() > 3) {
             segments.add(strNumber.substring(strNumber.length() - 3));
@@ -110,7 +113,7 @@ public abstract class Number {
     public boolean numberIsZero(String strNumber) throws NumberFormatException {
         boolean correct = false;
 
-        for (String segment : SplitNumberToSegments(strNumber)) {
+        for (String segment : splitNumberToSegments(strNumber)) {
             int intStr = Integer.parseInt(segment);
             if (intStr > 0) {
                 correct = true;

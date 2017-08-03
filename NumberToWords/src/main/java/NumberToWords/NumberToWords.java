@@ -28,7 +28,7 @@ public class NumberToWords extends Number {
 
     //Метод получение целой части числа
     public String getIntNumber() {
-        return intNumberAbs(intNumber(number));
+        return numberAbs(intNumber(number));
     }
 
     //Метод получение дробной части числа
@@ -37,7 +37,7 @@ public class NumberToWords extends Number {
     }
 
     //Метод добавляет в numberToSb отрицательное число или положительоне
-    public void addFront(String srtNumber) {
+    private void addFront(String srtNumber) {
         String minus = " минус ";
         if (!front(intNumber(srtNumber))) {
             numberToSb.append(minus);
@@ -45,7 +45,7 @@ public class NumberToWords extends Number {
     }
 
     //Метод добавляет в StringBuilder numberToSb слова соответствующие переданному числу strNumber
-    public void addDigit(String strNumber) {
+    private void addDigit(String strNumber) {
         if (strNumber.length() == 1) {
             numberToSb.append(digit(strNumber.substring(0, 1), DIGIT1)).append(" ");
         } else if (strNumber.length() == 2) {
@@ -62,10 +62,10 @@ public class NumberToWords extends Number {
     }
 
     //Метод добавляет в StringBuilder numberToSb степени и склонения
-    public void addFormatNumber(String strNumber) throws IndexOutOfBoundsException {
+    private void addFormatNumber(String strNumber) throws IndexOutOfBoundsException {
         String one = " одна ";
         String two = " две ";
-        ArrayList<String> segments = SplitNumberToSegments(strNumber);
+        ArrayList<String> segments = splitNumberToSegments(strNumber);
         for (int i = 0; i < segments.size(); i++) {
             String strSegment = segments.get(i);
             int intStr = Integer.parseInt(strSegment);
@@ -93,8 +93,9 @@ public class NumberToWords extends Number {
             }
         }
     }
+
     //Метод добавляет в StringBuilder numberToSb постфикс для целой части числа
-    public void addFormatForInteger(String strIntegerNumber) throws IndexOutOfBoundsException {
+    private void addFormatForInteger(String strIntegerNumber) throws IndexOutOfBoundsException {
         int intStr11 = 1;
         String zero = "ноль ";
         String wholeForOne = "целая ";
@@ -103,19 +104,18 @@ public class NumberToWords extends Number {
             if (strIntegerNumber.length() > 1)
             {
                 intStr11 = Integer.parseInt(strIntegerNumber.substring(strIntegerNumber.length() - 2));
-                addFormatNumber(strIntegerNumber);
             }
+            addFormatNumber(strIntegerNumber);
         } else {
             numberToSb.append(zero);
         }
         if (strIntegerNumber.substring(strIntegerNumber.length() - 1).equals("1") && 11 != intStr11) {
             numberToSb.append(wholeForOne);
         } else numberToSb.append(wholeForFive);
-
     }
 
     //Метод добавляет в StringBuilder numberToSb постфикс для дробной части числа
-    public void addFormatForDouble(String strDoubleNumber) throws IndexOutOfBoundsException {
+    private void addFormatForDouble(String strDoubleNumber) throws IndexOutOfBoundsException {
         String strForDoubleOne = "ая ";
         if (numberIsZero(strDoubleNumber)) {
             int intStr11 = 1;
@@ -163,13 +163,9 @@ public class NumberToWords extends Number {
         return convertNumberToWords();
     }
 
-
-
-
-
     //Метод очищает StringBuilder numberToSb
     public void clear() {
-        numberToSb.delete(0, numberToSb.length());
+        int startIndexNumberToSb = 0;
+        numberToSb.delete(startIndexNumberToSb, numberToSb.length());
     }
-
 }

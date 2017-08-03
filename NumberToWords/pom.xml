@@ -7,6 +7,14 @@
     <groupId>NumberInWords</groupId>
     <artifactId>NumberInWords</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <allure.version>1.3.6</allure.version>
+        <aspectj.version>1.7.4</aspectj.version>
+    </properties>
+
+
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -34,3 +42,4 @@
 
 
 </project>
+

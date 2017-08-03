@@ -55,31 +55,25 @@ public class Catalog {
             digit.add(readTextOfCell(row.getCell(cell)));
         }
         fileInputStream.close();
+
         return digit;
     }
 
+    public Object[][] getDataInArray(String path) throws IOException {
 
+        ArrayList<String> strDataExpected = readOfCatlogInList(path, 0, 0);
+        ArrayList<String> strDataActual = readOfCatlogInList(path,0,1);
 
-    //Метод записавает из столбца данные в ArrayList<String>
-    public Object[][] readOfCatlogInArray(int line, int column){
+        Object[][] objects = new Object[strDataExpected.size()][2];
 
-
-        Object[][] arrObj0 = new Object[line][column];
-
-        // цикл по первой размерности
-        for (int i = 0; i < line; i++) {
-            // цикл по второй размерности
-            for (int j = 0; j < column; j++) {
-                //инициализация элементов массива
-                arrObj0[i][j] = i+1;
-
-                //вывод элементов массива
-                System.out.print(arrObj0[i][j] + "\t");
-            }
-            System.out.println();
+        for (int i=0; i<strDataExpected.size(); i++)
+        {
+            objects[i][0] = strDataExpected.get(i);
+            objects[i][1] = strDataActual.get(i);
         }
-        return arrObj0;
-
+        return objects;
     }
+
+
 
 }
