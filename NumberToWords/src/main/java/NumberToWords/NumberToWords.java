@@ -164,7 +164,7 @@ public class NumberToWords extends Number {
     }
 
     //Метод очищает StringBuilder numberToSb
-    public void clear() {
+    private void clear() {
         int startIndexNumberToSb = 0;
         numberToSb.delete(startIndexNumberToSb, numberToSb.length());
     }
