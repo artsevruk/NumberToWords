@@ -59,6 +59,7 @@ public class Catalog {
         return digit;
     }
 
+    //Метод записавает из столбца данные в двумерный массив
     public Object[][] getDataInArray(String path) throws IOException {
 
         ArrayList<String> strDataExpected = readOfCatlogInList(path, 0, 0);

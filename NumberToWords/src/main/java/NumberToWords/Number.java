@@ -34,16 +34,6 @@ public abstract class Number {
     //Абстрактный метод. Печать числа прописью
     public abstract String convertNumberToWords(String strNumber);
 
-    /*
-    public abstract void addDigit(String strNumber);
-
-    //Абстрактный метод. Добавление степеней и склонений для целой части
-    public abstract void addFormatForInteger(String strIntegerNumber);
-
-    //Абстрактный метод. Добавление степеней и склонений для целой части
-    public abstract void addFormatForDouble(String strDoubleNumber);
-     */
-
     //Метод разбивает число на целую и дробную части
     private String[] SplitNumberToIntAndDouble(String strNumber) {
         String[] strMass = new String[2];
