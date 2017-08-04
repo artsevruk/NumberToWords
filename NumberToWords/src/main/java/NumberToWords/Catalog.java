@@ -1,11 +1,8 @@
 package NumberToWords;
 
-import org.apache.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.DateUtil;
-import org.apache.poi.ss.usermodel.Row;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,35 +10,17 @@ import java.util.ArrayList;
 /**
  * Created by artsevruk on 15.04.17.
  */
-public class Catalog {
+public class Catalog extends Reader {
 
-    private static final Logger logger = Logger.getLogger(Catalog.class);
 
-    //Метод определяет тип Excel ячейки и преобразует ее данные в String
-    public static String readTextOfCell(Cell cell) {
-        String result = null;
-        try {
-            switch (cell.getCellType()) {
-                case Cell.CELL_TYPE_STRING:
-                    result = cell.getRichStringCellValue().getString();
-                    break;
-                case Cell.CELL_TYPE_NUMERIC:
-                    if (DateUtil.isCellDateFormatted(cell)) {
-                        result = cell.getDateCellValue().toString();
-                    } else {
-                        result = Double.toString(cell.getNumericCellValue());
-                    }
-                    break;
-                default:
-                    System.out.println();
-            }
-        } catch (NullPointerException e) {
-            logger.error("Catalog does not contain data. " + e);
-        }
-        return result;
-    }
-
-    //Метод записавает из столбца данные в ArrayList<String>
+    /**
+     * Метод записавает из столбца данные в ArrayList<String>
+     * @param pathFile пусть к файлу Excel
+     * @param sheet лист
+     * @param cell клетка
+     * @return массив данных ArrayList<String>
+     * @throws IOException
+     */
     public ArrayList<String> readOfCatlogInList(String pathFile, int sheet, int cell) throws IOException {
 
         ArrayList<String> digit = new ArrayList();
@@ -59,7 +38,12 @@ public class Catalog {
         return digit;
     }
 
-    //Метод записавает из столбца данные в двумерный массив
+    /**
+     * Метод записавает из столбца данные в двумерный массив
+     * @param path
+     * @return двумерный массив Object[][]
+     * @throws IOException
+     */
     public Object[][] getDataInArray(String path) throws IOException {
 
         ArrayList<String> strDataExpected = readOfCatlogInList(path, 0, 0);

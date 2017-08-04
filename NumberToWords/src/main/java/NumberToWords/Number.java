@@ -12,7 +12,7 @@ import java.util.Collections;
  */
 
 /*
-Перевод числа в цифровой записи в строковую. Например 134345 будет "сто тридцать четыре тысячи триста сорок пять".
+Перевод числа из цифровой записи в строковую. Например 134345 будет "сто тридцать четыре тысячи триста сорок пять".
 - Учесть склонения - разница в окончаниях (к примеру, две и два).
 - Алгоритм должен работать для сколько угодно большого числа,
   соответственно, значения степеней - миллион, тысяча, миллиад и т.д. - должны браться из справочника, к примеру, текстового файла.
@@ -23,18 +23,32 @@ import java.util.Collections;
 - По возможности, применить ООП.
  */
 
+/**
+ * Абстрактный класс, хранящий базовые инструкции для перевода числа из цифровой записи в строковую
+ */
 public abstract class Number {
 
-    //Абстрактный метод. Получение целой части числа
+    /**
+     * Абстрактный метод. Получение целой части числа
+     */
     public abstract String getIntNumber();
 
-    //Абстрактный метод. Получение дробной части числа
+    /**
+     * Абстрактный метод. Получение дробной части числа
+     */
     public abstract String getDoubleNumber();
 
-    //Абстрактный метод. Печать числа прописью
+    /**
+     * Абстрактный метод. Печать числа прописью
+     * @param strNumber
+     */
     public abstract String convertNumberToWords(String strNumber);
 
-    //Метод разбивает число на целую и дробную части
+    /**
+     * Метод разбивает число на целую и дробную части
+     * @param strNumber
+     * @return массив из целой и дробной части числа
+     */
     private String[] SplitNumberToIntAndDouble(String strNumber) {
         String[] strMass = new String[2];
             if (strNumber.length() != 0) {
@@ -51,17 +65,27 @@ public abstract class Number {
         return strMass;
     }
 
-    //Метод определяет отрицательное число или положительное
+    /**
+     * Метод определяет отрицательное число или положительное
+     * @param strNumber
+     * @return положительное - true, ноль, отрицательно - false
+     */
     public boolean front(String strNumber) {
         return !intNumber(strNumber).substring(0, 1).equals("-");
     }
 
-    //Метод получение целой части числа без модуля
+    /**
+     * Метод получение целой части числа без модуля
+     * @param strNumber
+     */
     public String intNumber(String strNumber) {
         return SplitNumberToIntAndDouble(strNumber)[0];
     }
 
-    //Метод получение целой части числа по модулю
+    /**
+     * Метод получение целой части числа по модулю
+     * @param strNumber
+     */
     public String numberAbs(String strNumber) {
         if (!front(strNumber)) {
             return strNumber.substring(1, strNumber.length());
@@ -70,12 +94,20 @@ public abstract class Number {
         }
     }
 
-    //Метод получение дробной части числа
+    /**
+     * Метод получение дробной части числа
+     * @param strNumber
+     */
     public String doubleNumber(String strNumber) {
         return SplitNumberToIntAndDouble(strNumber)[1];
     }
 
-    //Метод возвращает строку из массива соответствующую переданному числу
+    /**
+     * Метод возвращает строку из массива соответствующую переданному числу
+     * @param strNumber
+     * @param dig
+     * @return число прописью
+     */
     public String digit(String strNumber, String[] dig) {
         int number = Integer.parseInt(strNumber);
         for (int i = 0; i <= number; i++) {
@@ -86,7 +118,11 @@ public abstract class Number {
         return strNumber;
     }
 
-    //Метод разбивает число на сегменты по три знака, записывает их в ArrayList<String>
+    /**
+     * Метод разбивает число на сегменты по три знака, записывает их в ArrayList<String>
+     * @param strNumber
+     * @return массив из сегментов числа
+     */
     public ArrayList<String> splitNumberToSegments(String strNumber) {
         ArrayList<String> segments = new ArrayList<String>();
         while (strNumber.length() > 3) {
@@ -99,7 +135,12 @@ public abstract class Number {
         return segments;
     }
 
-    //Метод проверяет элементы ArrayList'а на ноль
+    /**
+     * Метод проверяет элементы ArrayList'а на ноль
+     * @param strNumber
+     * @return больше нуля - true, ноль, меньше нуля - false
+     * @throws NumberFormatException
+     */
     public boolean numberIsZero(String strNumber) throws NumberFormatException {
         boolean correct = false;
 
