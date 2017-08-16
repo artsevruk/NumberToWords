@@ -8,6 +8,8 @@ import org.testng.annotations.Test;
 
 public class NumberInWordsTest {
     private NumberToWords numberToWords = new NumberToWords();
+
+
     private String digit1[] = {"", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять"};
 
 

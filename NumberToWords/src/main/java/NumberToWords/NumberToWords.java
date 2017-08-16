@@ -112,6 +112,23 @@ public class NumberToWords extends Number {
     }
 
     /**
+     * Метод проверяет число на последнюю цифру и неравенство к 11
+     * @param strIntegerOrDoubleNumber
+     * @param i
+     * @return
+     */
+    private boolean ifLastNumeralIsNotEleven(String strIntegerOrDoubleNumber, int i)
+    {
+        String lastNumeral = "1";
+        if (strIntegerOrDoubleNumber.substring(strIntegerOrDoubleNumber.length() - 1).equals(lastNumeral) && 11 != i)
+        {
+            return true;
+        }
+        else return false;
+    }
+
+
+    /**
      * Метод добавляет в StringBuilder numberToSb постфикс для целой части числа
      * @param strIntegerNumber
      * @throws IndexOutOfBoundsException
@@ -130,7 +147,7 @@ public class NumberToWords extends Number {
         } else {
             numberToSb.append(zero);
         }
-        if (strIntegerNumber.substring(strIntegerNumber.length() - 1).equals("1") && 11 != intStr11) {
+        if (ifLastNumeralIsNotEleven(strIntegerNumber,intStr11)) {
             numberToSb.append(wholeForOne);
         } else numberToSb.append(wholeForFive);
     }
@@ -142,22 +159,24 @@ public class NumberToWords extends Number {
      */
     private void addFormatForDouble(String strDoubleNumber) throws IndexOutOfBoundsException {
         String strForDoubleOne = "ая ";
+        int intStr11 = 1;
         if (numberIsZero(strDoubleNumber)) {
-            int intStr11 = 1;
             if (strDoubleNumber.length() > 1)
             {
                 intStr11 = Integer.parseInt(strDoubleNumber.substring(strDoubleNumber.length() - 2));
                 addFormatNumber(strDoubleNumber);
             }
+
             numberToSb.append(FORMDOUBLE.get(strDoubleNumber.length()));
-            if (strDoubleNumber.substring(strDoubleNumber.length() - 1).equals("1") && 11 != intStr11) {
+
+            if (ifLastNumeralIsNotEleven(strDoubleNumber,intStr11)) {
                 numberToSb.replace(numberToSb.length() - 2, numberToSb.length(), strForDoubleOne);
             }
         }
     }
 
     /**
-     * Метод переводит и печатает числовую запись в строковую
+     * Метод переводит числовую запись в строковую
      * @return переведенное число в пропись
      */
     public String convertNumberToWords() {
