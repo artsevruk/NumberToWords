@@ -115,7 +115,7 @@ public class NumberToWords extends Number {
      * Метод проверяет число на последнюю цифру и неравенство к 11
      * @param strIntegerOrDoubleNumber
      * @param i
-     * @return
+     * @return boolean
      */
     private boolean ifLastNumeralIsNotEleven(String strIntegerOrDoubleNumber, int i)
     {
@@ -129,48 +129,53 @@ public class NumberToWords extends Number {
 
 
     /**
-     * Метод добавляет в StringBuilder numberToSb постфикс для целой части числа
+     * Метод добавляет в StringBuilder numberToSb постфикс для целой части числа и дробной части числа
      * @param strIntegerNumber
-     * @throws IndexOutOfBoundsException
-     */
-    private void addFormatForInteger(String strIntegerNumber) throws IndexOutOfBoundsException {
-        int intStr11 = 1;
-        String zero = "ноль ";
-        String wholeForOne = "целая ";
-        String wholeForFive = "целых ";
-        if (numberIsZero(strIntegerNumber)) {
-            if (strIntegerNumber.length() > 1)
-            {
-                intStr11 = Integer.parseInt(strIntegerNumber.substring(strIntegerNumber.length() - 2));
-            }
-            addFormatNumber(strIntegerNumber);
-        } else {
-            numberToSb.append(zero);
-        }
-        if (ifLastNumeralIsNotEleven(strIntegerNumber,intStr11)) {
-            numberToSb.append(wholeForOne);
-        } else numberToSb.append(wholeForFive);
-    }
-
-    /**
-     * Метод добавляет в StringBuilder numberToSb постфикс для дробной части числа
      * @param strDoubleNumber
      * @throws IndexOutOfBoundsException
      */
-    private void addFormatForDouble(String strDoubleNumber) throws IndexOutOfBoundsException {
-        String strForDoubleOne = "ая ";
+    private void addFormatForIntegerAndDouble(String strIntegerNumber, String strDoubleNumber) throws IndexOutOfBoundsException
+    {
         int intStr11 = 1;
-        if (numberIsZero(strDoubleNumber)) {
-            if (strDoubleNumber.length() > 1)
-            {
-                intStr11 = Integer.parseInt(strDoubleNumber.substring(strDoubleNumber.length() - 2));
-                addFormatNumber(strDoubleNumber);
+        int indexStrIntegerNumber = 0;
+        int indexStrDoubleNumber = 1;
+        String zero = "ноль ";
+        String wholeForOne = "целая ";
+        String wholeForFive = "целых ";
+        String strForDoubleOne = "ая ";
+        String[] strArrayNumber = new String[2];
+        strArrayNumber[0] = strIntegerNumber;
+        strArrayNumber[1] = strDoubleNumber;
+
+        for (int i = 0; i <= strArrayNumber.length-1; i++) {
+
+            if (numberIsZero(strArrayNumber[i])) {
+                if (strArrayNumber[i].length() > 1) {
+                    intStr11 = Integer.parseInt(strArrayNumber[i].substring(strArrayNumber[i].length() - 2));
+
+                    if (i== indexStrDoubleNumber) addFormatNumber(strArrayNumber[i]);
+                }
+
+                if (i == indexStrIntegerNumber) addFormatNumber(strArrayNumber[i]);
+
+
+                if (i== indexStrDoubleNumber) numberToSb.append(FORMDOUBLE.get(strArrayNumber[i].length()));
+
+                if (ifLastNumeralIsNotEleven(strArrayNumber[i],intStr11))
+                {
+                    if (i== indexStrDoubleNumber) numberToSb.replace(numberToSb.length() - 2, numberToSb.length(), strForDoubleOne);
+                }
             }
 
-            numberToSb.append(FORMDOUBLE.get(strDoubleNumber.length()));
+            else if (i== indexStrIntegerNumber) numberToSb.append(zero);
 
-            if (ifLastNumeralIsNotEleven(strDoubleNumber,intStr11)) {
-                numberToSb.replace(numberToSb.length() - 2, numberToSb.length(), strForDoubleOne);
+            if(i== indexStrIntegerNumber)
+            {
+                if (ifLastNumeralIsNotEleven(strArrayNumber[i],intStr11)) {
+
+                    numberToSb.append(wholeForOne);
+                }
+                else numberToSb.append(wholeForFive);
             }
         }
     }
@@ -182,8 +187,7 @@ public class NumberToWords extends Number {
     public String convertNumberToWords() {
         addFront(number);
         try {
-            addFormatForInteger(getIntNumber());
-            addFormatForDouble(getDoubleNumber());
+            addFormatForIntegerAndDouble(getIntNumber(),getDoubleNumber());
         } catch (NumberFormatException e) {
             logger.error("Invalid number format. " + e);
             e.printStackTrace();
