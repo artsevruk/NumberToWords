@@ -1,6 +1,7 @@
 package NumberToWords;
 
 import org.apache.log4j.Logger;
+
 import java.lang.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +46,7 @@ public class NumberToWords extends Number {
 
     /**
      * Метод добавляет в numberToSb отрицательное число или положительоне
+     *
      * @param srtNumber
      */
     private void addFront(String srtNumber) {
@@ -56,6 +58,7 @@ public class NumberToWords extends Number {
 
     /**
      * Метод добавляет в StringBuilder numberToSb слова соответствующие переданному числу strNumber
+     *
      * @param strNumber
      */
     private void addDigit(String strNumber) {
@@ -76,6 +79,7 @@ public class NumberToWords extends Number {
 
     /**
      * Метод добавляет в StringBuilder numberToSb степени и склонения
+     *
      * @param strNumber
      * @throws IndexOutOfBoundsException
      */
@@ -113,29 +117,27 @@ public class NumberToWords extends Number {
 
     /**
      * Метод проверяет число на последнюю цифру и неравенство к 11
+     *
      * @param strIntegerOrDoubleNumber
      * @param i
      * @return boolean
      */
-    private boolean ifLastNumeralIsNotEleven(String strIntegerOrDoubleNumber, int i)
-    {
+    private boolean ifLastNumeralIsNotEleven(String strIntegerOrDoubleNumber, int i) {
         String lastNumeral = "1";
         if (strIntegerOrDoubleNumber.substring(strIntegerOrDoubleNumber.length() - 1).equals(lastNumeral) && 11 != i)
-        {
             return true;
-        }
         else return false;
     }
 
 
     /**
      * Метод добавляет в StringBuilder numberToSb постфикс для целой части числа и дробной части числа
+     *
      * @param strIntegerNumber
      * @param strDoubleNumber
      * @throws IndexOutOfBoundsException
      */
-    private void addFormatForIntegerAndDouble(String strIntegerNumber, String strDoubleNumber) throws IndexOutOfBoundsException
-    {
+    private void addFormatForIntegerAndDouble(String strIntegerNumber, String strDoubleNumber) throws IndexOutOfBoundsException {
         int intStr11 = 1;
         int indexStrIntegerNumber = 0;
         int indexStrDoubleNumber = 1;
@@ -147,47 +149,44 @@ public class NumberToWords extends Number {
         strArrayNumber[0] = strIntegerNumber;
         strArrayNumber[1] = strDoubleNumber;
 
-        for (int i = 0; i <= strArrayNumber.length-1; i++) {
+        for (int i = 0; i <= strArrayNumber.length - 1; i++) {
 
             if (numberIsZero(strArrayNumber[i])) {
                 if (strArrayNumber[i].length() > 1) {
                     intStr11 = Integer.parseInt(strArrayNumber[i].substring(strArrayNumber[i].length() - 2));
 
-                    if (i== indexStrDoubleNumber) addFormatNumber(strArrayNumber[i]);
+                    if (i == indexStrDoubleNumber) addFormatNumber(strArrayNumber[i]);
                 }
 
                 if (i == indexStrIntegerNumber) addFormatNumber(strArrayNumber[i]);
 
 
-                if (i== indexStrDoubleNumber) numberToSb.append(FORMDOUBLE.get(strArrayNumber[i].length()));
+                if (i == indexStrDoubleNumber) numberToSb.append(FORMDOUBLE.get(strArrayNumber[i].length()));
 
-                if (ifLastNumeralIsNotEleven(strArrayNumber[i],intStr11))
-                {
-                    if (i== indexStrDoubleNumber) numberToSb.replace(numberToSb.length() - 2, numberToSb.length(), strForDoubleOne);
+                if (ifLastNumeralIsNotEleven(strArrayNumber[i], intStr11)) {
+                    if (i == indexStrDoubleNumber)
+                        numberToSb.replace(numberToSb.length() - 2, numberToSb.length(), strForDoubleOne);
                 }
-            }
+            } else if (i == indexStrIntegerNumber) numberToSb.append(zero);
 
-            else if (i== indexStrIntegerNumber) numberToSb.append(zero);
-
-            if(i== indexStrIntegerNumber)
-            {
-                if (ifLastNumeralIsNotEleven(strArrayNumber[i],intStr11)) {
+            if (i == indexStrIntegerNumber) {
+                if (ifLastNumeralIsNotEleven(strArrayNumber[i], intStr11)) {
 
                     numberToSb.append(wholeForOne);
-                }
-                else numberToSb.append(wholeForFive);
+                } else numberToSb.append(wholeForFive);
             }
         }
     }
 
     /**
      * Метод переводит числовую запись в строковую
+     *
      * @return переведенное число в пропись
      */
     public String convertNumberToWords() {
         addFront(number);
         try {
-            addFormatForIntegerAndDouble(getIntNumber(),getDoubleNumber());
+            addFormatForIntegerAndDouble(getIntNumber(), getDoubleNumber());
         } catch (NumberFormatException e) {
             logger.error("Invalid number format. " + e);
             e.printStackTrace();
@@ -211,6 +210,7 @@ public class NumberToWords extends Number {
 
     /**
      * Метод переводит и печатает числовую запись в строковую с аргументом
+     *
      * @return переведенное число в пропись
      */
     public String convertNumberToWords(String numberStr) {
