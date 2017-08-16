@@ -96,14 +96,16 @@ public class NumberToWords extends Number {
             addDigit(strSegment);
 
             if (segments.size() >= 1 && intStr > 0) {
-                if (11 != intStr11 && (strSegment.substring(strSegment.length() - 1).equals("1"))) {
+                if (ifLastNumeralIsNotEleven(strSegment,"1", 11, intStr11))
+                {
                     if (i >= segments.size() - 2) {
                         numberToSb.replace(numberToSb.length() - 5, numberToSb.length(), one);
                     }
                     numberToSb.append(FORMONE.get(segments.size() - 1 - i)).append(" ");
-                } else if (12 != intStr11 && (strSegment.substring(strSegment.length() - 1).equals("2")) ||
-                        13 != intStr11 && strSegment.substring(strSegment.length() - 1).equals("3") ||
-                        14 != intStr11 && strSegment.substring(strSegment.length() - 1).equals("4")) {
+
+                } else if (ifLastNumeralIsNotEleven(strSegment,"2", 12, intStr11) ||
+                        ifLastNumeralIsNotEleven(strSegment,"3", 13, intStr11) ||
+                        ifLastNumeralIsNotEleven(strSegment,"4", 14, intStr11)) {
                     if ((i >= segments.size() - 2) && (strSegment.substring(strSegment.length() - 1).equals("2"))) {
                         numberToSb.replace(numberToSb.length() - 4, numberToSb.length(), two);
                     }
@@ -116,15 +118,15 @@ public class NumberToWords extends Number {
     }
 
     /**
-     * Метод проверяет число на последнюю цифру и неравенство к 11
-     *
+     * Метод проверяет число на последнюю цифру и неравенство к numberNotEquals
      * @param strIntegerOrDoubleNumber
-     * @param i
-     * @return boolean
+     * @param lastNumeral
+     * @param numberNotEquals
+     * @param intStr11
+     * @return
      */
-    private boolean ifLastNumeralIsNotEleven(String strIntegerOrDoubleNumber, int i) {
-        String lastNumeral = "1";
-        if (strIntegerOrDoubleNumber.substring(strIntegerOrDoubleNumber.length() - 1).equals(lastNumeral) && 11 != i)
+    private boolean ifLastNumeralIsNotEleven(String strIntegerOrDoubleNumber, String lastNumeral, int numberNotEquals, int intStr11) {
+        if (strIntegerOrDoubleNumber.substring(strIntegerOrDoubleNumber.length() - 1).equals(lastNumeral) && numberNotEquals != intStr11)
             return true;
         else return false;
     }
@@ -163,14 +165,14 @@ public class NumberToWords extends Number {
 
                 if (i == indexStrDoubleNumber) numberToSb.append(FORMDOUBLE.get(strArrayNumber[i].length()));
 
-                if (ifLastNumeralIsNotEleven(strArrayNumber[i], intStr11)) {
+                if (ifLastNumeralIsNotEleven(strArrayNumber[i],"1", 11, intStr11)) {
                     if (i == indexStrDoubleNumber)
                         numberToSb.replace(numberToSb.length() - 2, numberToSb.length(), strForDoubleOne);
                 }
             } else if (i == indexStrIntegerNumber) numberToSb.append(zero);
 
             if (i == indexStrIntegerNumber) {
-                if (ifLastNumeralIsNotEleven(strArrayNumber[i], intStr11)) {
+                if (ifLastNumeralIsNotEleven(strArrayNumber[i],"1", 11, intStr11)) {
 
                     numberToSb.append(wholeForOne);
                 } else numberToSb.append(wholeForFive);
