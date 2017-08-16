@@ -78,6 +78,20 @@ public class NumberToWords extends Number {
     }
 
     /**
+     * Метод проверяет число на последнюю цифру и неравенство к numberNotEquals
+     * @param strIntegerOrDoubleNumber
+     * @param lastNumeral
+     * @param numberNotEquals
+     * @param intStr11
+     * @return
+     */
+    private boolean ifLastNumeralIsNotEleven(String strIntegerOrDoubleNumber, String lastNumeral, int numberNotEquals, int intStr11) {
+        if (strIntegerOrDoubleNumber.substring(strIntegerOrDoubleNumber.length() - 1).equals(lastNumeral) && numberNotEquals != intStr11)
+            return true;
+        else return false;
+    }
+
+    /**
      * Метод добавляет в StringBuilder numberToSb степени и склонения
      *
      * @param strNumber
@@ -116,21 +130,6 @@ public class NumberToWords extends Number {
             }
         }
     }
-
-    /**
-     * Метод проверяет число на последнюю цифру и неравенство к numberNotEquals
-     * @param strIntegerOrDoubleNumber
-     * @param lastNumeral
-     * @param numberNotEquals
-     * @param intStr11
-     * @return
-     */
-    private boolean ifLastNumeralIsNotEleven(String strIntegerOrDoubleNumber, String lastNumeral, int numberNotEquals, int intStr11) {
-        if (strIntegerOrDoubleNumber.substring(strIntegerOrDoubleNumber.length() - 1).equals(lastNumeral) && numberNotEquals != intStr11)
-            return true;
-        else return false;
-    }
-
 
     /**
      * Метод добавляет в StringBuilder numberToSb постфикс для целой части числа и дробной части числа
